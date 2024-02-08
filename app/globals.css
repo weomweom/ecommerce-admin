@@ -2,32 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+input, textarea{
+    @apply border-2 border-gray-300 rounded-md px-1 w-full;
+    @apply mb-2;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+h1{
+    @apply text-blue-900 mb-2 text-xl font-bold;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+label{
+    @apply text-blue-900 font-semibold;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.btn-primary{
+    @apply bg-blue-900 text-white px-4 rounded-md py-1;
+}
+
+table.basic{
+    @apply w-full mt-2;
+}
+
+table.basic thead tr td{
+    @apply bg-blue-100;
+}
+
+table.basic tr td{
+    @apply border border-gray-300 p-1;
+}
+
+table.basic a{
+    @apply inline-flex gap-1 bg-blue-900 text-white text-sm py-1 px-2 rounded-md mr-1;
+}
+
+.btn-default, .btn-red{
+    @apply px-4 py-1 rounded-md;
+}
+
+.btn-red{
+    @apply bg-red-600 text-white;
+}
+
+.btn-default{
+    @apply bg-gray-300;
 }
