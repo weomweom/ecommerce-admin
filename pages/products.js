@@ -32,7 +32,7 @@ function Products() {
                 </thead>
                 <tbody>
                 {products.map((product, i) => (
-                    <tr key={i}>
+                    <tr key={product._id}>
                         <td>{product.title}</td>
                         <td>{product.price}</td>
                         <td>
