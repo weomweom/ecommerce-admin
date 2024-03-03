@@ -1,37 +1,43 @@
-import HomeLogo from './Icons/HomeLogo'
-import ProductsLogo from './Icons/ProductsLogo'
-import OrdersLogo from './Icons/OrdersLogo'
-import SettingsLogo from './Icons/SettingsLogo'
-import PanelLogo from './Icons/PanelLogo'
+import Home from './Icons/Home'
+import Products from './Icons/Products'
+import Orders from './Icons/Orders'
+import Settings from './Icons/Settings'
+import Panel from './Icons/PanelLogo'
+import Categories from './Icons/Categories'
 
 export const PanelLink = 
     {
-        icon: <PanelLogo/>,
+        icon: <Panel/>,
         href: '/',
         label: 'Ecommerce admin'
     }
 
 const NavLinks = [
     {
-        icon: <HomeLogo/>,
+        icon: <Home/>,
         href: '/',
         label: 'Dashboard'
     },
     {
-        icon: <ProductsLogo/>,
+        icon: <Products/>,
         href: '/products',
         label: 'Products'
     },
     {
-        icon: <OrdersLogo/>,
+        icon: <Categories/>,
+        href: '/categories',
+        label: 'Categories'
+    },
+    {
+        icon: <Orders/>,
         href: '/orders',
         label: 'Orders'
     },
     {
-        icon: <SettingsLogo/>,
+        icon: <Settings/>,
         href: '/settings',
         label: 'Settings'
-    }
+    },
 ]
 
 export default NavLinks
