@@ -6,19 +6,22 @@ async function handle(req,res) {
     await mongooseConnect();
 
     if(method === 'POST'){
-        const {name,parentCategory} = req.body;
+        const {name, parentCategory, properties} = req.body;
         const categoryDoc = await Category.create({
             name,
-            parent:parentCategory || null
+            parent:parentCategory || undefined,
+            properties: properties.map(p => ({name: p.name, values: p.values.split(',')}))
         });
         res.json(categoryDoc);
     }
 
     if(method === 'PUT'){
-        const {name, parentCategory, _id} = req.body;
+        const {name, parentCategory, properties, _id} = req.body;
         const categoryDoc = await Category.updateOne({_id}, {
             name,
-            parent:parentCategory || null
+            parent:parentCategory || undefined,
+            properties: properties,
+            properties: properties.map(p => ({name: p.name, values: p.values.split(',')}))
         });
         res.json(categoryDoc);
     }
