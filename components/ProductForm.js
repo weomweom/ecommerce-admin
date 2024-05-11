@@ -4,7 +4,6 @@ import {useRouter} from "next/router";
 import { ReactSortable } from "react-sortablejs";
 import Upload from "./Icons/Upload";
 import Spinner from "./Spinner";
-import Close from "./Icons/Close";
 
 function ProductForm({
     _id,
@@ -13,6 +12,7 @@ function ProductForm({
     price:existingPrice,
     images:existingImages,
     category:existingCategory,
+    properties:assignedProperties,
 }) {
     const [title, setTitle] = useState(existingTitle || '');
     const [description, setDescription] = useState(existingDescription || '');
@@ -22,6 +22,7 @@ function ProductForm({
     const [isLoading, setIsLoading] = useState(false);
     const [categories, setCategories] = useState([]);
     const [category, setCategory] = useState(existingCategory || '');
+    const [productProperties, setProductProperties] = useState(assignedProperties || {});
     const router = useRouter();
 
     useEffect(() => {
@@ -33,7 +34,7 @@ function ProductForm({
     async function createProduct(ev) {
         ev.preventDefault()
 
-        const data = {title, description, price, images, category}
+        const data = {title, description, price, images, category, properties: productProperties}
         if (_id){
             await axios.put('/api/products', {...data, _id})
         } else {
@@ -69,6 +70,26 @@ function ProductForm({
         setImages(images);
     }
 
+    function setProductProp(propName, value){
+        setProductProperties(prev => {
+            const newProductsProps = {...prev};
+            newProductsProps[propName] = value;
+            return newProductsProps;
+        })
+    }
+
+    const propertiesToFill = [];
+    if(categories.length > 0 && category) {
+        let catInfo = categories.find(({_id}) => _id === category)
+        catInfo?.properties && propertiesToFill.push(...catInfo.properties);
+
+        while(catInfo?.parent?.id){
+            const parentCat = categories.find(({_id}) => _id === catInfo?.parent?._id);
+            propertiesToFill.push(parentCat.properties);
+            catInfo = parentCat;
+        }
+    }
+
     return (
         <form onSubmit={createProduct}>
             <label>Product name</label>
@@ -81,6 +102,24 @@ function ProductForm({
                     <option value={category._id} key={category._id}>{category.name}</option>
                 ))}
             </select>
+
+            {propertiesToFill.length > 0 && propertiesToFill.map(p => (
+                <div className="flex gap-1" key={p}>
+                    <div>
+                        {p.name}
+                    </div>
+                    <select 
+                        value={productProperties[p.name]}
+                        onChange={ev => 
+                            setProductProp(p.name, ev.target.value)
+                        }
+                    >
+                        {p.values.map(v => (
+                            <option key={v} value={v}>{v}</option>
+                        ))}
+                    </select>
+                </div>
+            ))}
 
             <label>Photos</label>
             {!images?.length && (
